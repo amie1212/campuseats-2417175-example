@@ -113,6 +113,13 @@ body {
   color: var(--c-ink);
 }
 
+.brand-logo-mark {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  display: block;
+}
+
 .brand-name {
   font-size: 15px;
   font-weight: 600;

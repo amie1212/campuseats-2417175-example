@@ -19,9 +19,7 @@ function Header() {
         {/* Brand / Logo */}
         <Link to="/" className="logo-link">
           <div className="logo">
-            <svg className="apple-logo-mark" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/>
-            </svg>
+            <img src="favicon.png" alt="CampusEats Icon" width="20" height="20" className="brand-logo-mark" />
             <span className="brand-name">CampusEats</span>
             <span className="campus-badge">IIUM</span>
           </div>
