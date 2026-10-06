@@ -173,7 +173,7 @@ function AdminPage() {
       {/* Stall Status Card */}
       <div className="stall-quick-status-card">
         <div className="status-card-left">
-          <div className="thumb">{currentVendor.name.charAt(0)}</div>
+          <div className="thumb">{currentVendor.image || '🍽️'}</div>
           <div>
             <h3 className="stall-card-title">{currentVendor.name}</h3>
             <p className="stall-card-meta">{currentVendor.location}</p>

@@ -7,12 +7,15 @@
    ========================================================================== */
 
 :root {
-  /* Palette 1: Canvas & Surfaces */
-  --c-canvas: #fafafa;
+  color-scheme: light dark;
+
+  /* Palette 1: Canvas & Surfaces (Apple Light) */
+  --c-canvas: #f8f8fa;
   --c-surface: #ffffff;
-  --c-surface-hover: #f4f4f6;
-  --c-border: #e5e5e7;
+  --c-surface-hover: #f1f1f4;
+  --c-border: #e5e5ea;
   --c-border-subtle: #eeeeef;
+  --c-header-bg: rgba(255, 255, 255, 0.85);
 
   /* Palette 2: Typography & Ink Structure */
   --c-ink: #111111;
@@ -23,13 +26,39 @@
   --c-accent: #0071e3;
   --c-accent-hover: #0077ed;
   --c-accent-tint: #f0f6ff;
+  --c-accent-contrast: #ffffff;
 
   /* Geometry & Typography */
   --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --radius-pill: 980px;
   --radius-card: 16px;
-  --radius-sm: 8px;
+  --radius-sm: 10px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Palette 1: Canvas & Surfaces (Onyx, Deep Slate, Sleek Graphite) */
+    --c-canvas: #09090b;
+    --c-surface: #141416;
+    --c-surface-hover: #1f1f23;
+    --c-border: rgba(255, 255, 255, 0.12);
+    --c-border-subtle: rgba(255, 255, 255, 0.08);
+    --c-header-bg: rgba(14, 14, 16, 0.85);
+
+    /* Palette 2: Typography & Ink Structure (Crisp Snow & Refined Silver) */
+    --c-ink: #f4f4f5;
+    --c-ink-secondary: #a1a1aa;
+    --c-ink-tertiary: #71717a;
+
+    /* Palette 3: Precision Signature Accent (Electric Sky Blue) */
+    --c-accent: #38bdf8;
+    --c-accent-hover: #60a5fa;
+    --c-accent-tint: rgba(56, 189, 248, 0.15);
+    --c-accent-contrast: #09090b;
+    --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.5);
+  }
 }
 
 * {
@@ -80,11 +109,12 @@ body {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: rgba(255, 255, 255, 0.88);
+  background-color: var(--c-header-bg);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--c-border);
   padding-top: env(safe-area-inset-top, 0px);
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease);
 }
 
 .header-inner {
@@ -109,15 +139,17 @@ body {
   user-select: none;
 }
 
-.apple-logo-mark {
+.brand-logo-svg {
+  width: 20px;
+  height: 20px;
   color: var(--c-ink);
+  display: block;
+  flex-shrink: 0;
+  transition: transform 0.2s var(--ease);
 }
 
-.brand-logo-mark {
-  width: 18px;
-  height: 18px;
-  object-fit: contain;
-  display: block;
+.logo-link:hover .brand-logo-svg {
+  transform: scale(1.08);
 }
 
 .brand-name {
@@ -130,9 +162,10 @@ body {
 .campus-badge {
   font-size: 10px;
   font-weight: 600;
-  background: var(--c-ink);
-  color: var(--c-surface);
-  padding: 1px 6px;
+  background: var(--c-surface-hover);
+  color: var(--c-ink-secondary);
+  border: 1px solid var(--c-border);
+  padding: 1px 7px;
   border-radius: var(--radius-pill);
   letter-spacing: 0.04em;
 }
@@ -425,25 +458,34 @@ body {
   display: flex;
   gap: 16px;
   align-items: flex-start;
-  transition: border-color 0.2s;
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease), transform 0.2s var(--ease);
 }
 
 .vendor-card:hover {
-  border-color: var(--c-ink);
+  border-color: var(--c-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 .thumb {
-  width: 44px;
-  height: 44px;
-  background: var(--c-ink);
-  color: var(--c-surface);
-  font-size: 18px;
-  font-weight: 600;
-  border-radius: 10px;
+  width: 48px;
+  height: 48px;
+  background: var(--c-surface-hover);
+  border: 1px solid var(--c-border);
+  color: var(--c-ink);
+  font-size: 26px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: transform 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+
+.vendor-card:hover .thumb {
+  transform: scale(1.06);
+  border-color: var(--c-accent);
 }
 
 .vendor-body {
@@ -513,12 +555,13 @@ body {
 }
 
 .vendor-announcement-chip {
-  border-left: 2px solid var(--c-ink);
-  padding: 4px 8px;
+  border-left: 2.5px solid var(--c-accent);
+  padding: 6px 10px;
   font-size: 12px;
-  color: var(--c-ink);
+  color: var(--c-ink-secondary);
   margin-bottom: 10px;
-  background: var(--c-canvas);
+  background: var(--c-surface-hover);
+  border-radius: 0 6px 6px 0;
 }
 
 .vendor-card-footer {
@@ -547,18 +590,20 @@ body {
 }
 
 .status-indicator {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   display: inline-block;
 }
 
 .status.open {
   color: var(--c-ink);
+  background: var(--c-surface-hover);
 }
 
 .status.open .status-indicator {
-  background-color: var(--c-accent);
+  background-color: #10b981;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
 }
 
 .status.closed {
@@ -586,11 +631,14 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: border-color 0.2s;
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease), transform 0.2s var(--ease);
 }
 
 .menu-card:hover {
-  border-color: var(--c-ink);
+  border-color: var(--c-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
 .menu-card.item-sold-out {
@@ -611,9 +659,12 @@ body {
 }
 
 .item-emoji-thumb {
-  width: 36px;
-  height: 36px;
-  font-size: 14px;
+  width: 42px;
+  height: 42px;
+  font-size: 22px;
+  background: var(--c-surface-hover);
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
 }
 
 .popular-tag {
@@ -952,13 +1003,13 @@ body {
 }
 
 .vendor-hero-avatar {
-  width: 56px;
-  height: 56px;
-  background: var(--c-ink);
-  color: var(--c-surface);
-  border-radius: 12px;
-  font-size: 24px;
-  font-weight: 700;
+  width: 60px;
+  height: 60px;
+  background: var(--c-surface-hover);
+  border: 1px solid var(--c-border);
+  color: var(--c-ink);
+  border-radius: 16px;
+  font-size: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2581,13 +2632,14 @@ body {
   right: 0;
   height: calc(50px + env(safe-area-inset-bottom, 0px));
   padding-bottom: env(safe-area-inset-bottom, 0px);
-  background-color: rgba(255, 255, 255, 0.92);
+  background-color: var(--c-header-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid var(--c-border);
   z-index: 1000;
   justify-content: space-around;
   align-items: center;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease);
 }
 
 .tab-item {
@@ -2621,8 +2673,8 @@ body {
   position: absolute;
   top: -3px;
   right: -8px;
-  background: var(--c-ink);
-  color: var(--c-surface);
+  background: var(--c-accent);
+  color: var(--c-accent-contrast);
   font-size: 8px;
   font-weight: 700;
   padding: 1px 4px;

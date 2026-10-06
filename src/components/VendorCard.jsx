@@ -19,7 +19,7 @@ function VendorCard({ vendor }) {
 
   return (
     <article className="vendor-card">
-      <div className="thumb">{v.name.charAt(0)}</div>
+      <div className="thumb">{v.image || '🍽️'}</div>
       <div className="vendor-body">
         <div className="vendor-top-row">
           <div>

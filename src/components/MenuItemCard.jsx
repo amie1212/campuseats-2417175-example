@@ -47,7 +47,7 @@ function MenuItemCard({ item, name, description, price, available, vendorId }) {
       <article className={`menu-card ${!currentItem.available ? 'item-sold-out' : ''}`}>
         <div className="card-header">
           <div className="item-thumb-wrapper">
-            <div className="thumb item-emoji-thumb">{currentItem.name.charAt(0)}</div>
+            <div className="thumb item-emoji-thumb">{currentItem.imageEmoji || '🍽️'}</div>
             {currentItem.isPopular && <span className="popular-tag">Popular</span>}
           </div>
           <span className={`stock-pill ${currentItem.available ? 'in-stock' : 'sold-out'}`}>

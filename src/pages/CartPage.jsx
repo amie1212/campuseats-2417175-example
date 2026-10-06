@@ -76,7 +76,7 @@ function CartPage() {
         <div className="cart-items-section">
           {currentVendor && (
             <div className="cart-vendor-banner">
-              <span className="vendor-avatar-mini">{currentVendor.name.charAt(0)}</span>
+              <span className="vendor-avatar-mini">{currentVendor.image || '🍽️'}</span>
               <div>
                 <p className="cart-vendor-label">Ordering from</p>
                 <h4 className="cart-vendor-name">{currentVendor.name}</h4>
@@ -88,7 +88,7 @@ function CartPage() {
           <div className="cart-items-list">
             {cartItems.map((item) => (
               <div key={item.id} className="cart-item-row">
-                <div className="cart-item-thumb">{item.name.charAt(0)}</div>
+                <div className="cart-item-thumb">{item.imageEmoji || '🍽️'}</div>
                 <div className="cart-item-details">
                   <div className="cart-item-title-row">
                     <h4 className="cart-item-name">{item.name}</h4>

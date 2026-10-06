@@ -32,7 +32,7 @@ function VendorDetailPage() {
       {/* Vendor Hero Banner */}
       <section className="vendor-hero-card">
         <div className="vendor-hero-header">
-          <div className="vendor-hero-avatar">{vendor.name.charAt(0)}</div>
+          <div className="vendor-hero-avatar">{vendor.image || '🍽️'}</div>
           <div className="vendor-hero-info">
             <div className="vendor-hero-badges">
               <span className="eyebrow-tag">{vendor.cuisine}</span>
