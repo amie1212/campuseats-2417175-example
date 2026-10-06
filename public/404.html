@@ -1,25 +1,20 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/campuseats-2417175-example/favicon.svg" />
-    <link rel="apple-touch-icon" href="/campuseats-2417175-example/favicon.svg" />
-    
-    <!-- iPhone & iOS Full-Bleed Viewport Optimization -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    
-    <!-- Apple Web App & PWA Status Bar Capabilities -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="CampusEats" />
-    <meta name="theme-color" content="#fbfbfd" />
-    <meta name="format-detection" content="telephone=no" />
-    
-    <title>CampusEats</title>
-    <script type="module" crossorigin src="/campuseats-2417175-example/assets/index-CIkYKEP0.js"></script>
-    <link rel="stylesheet" crossorigin href="/campuseats-2417175-example/assets/index-BMaKO0Ae.css">
+    <meta charset="utf-8">
+    <title>CampusEats - Redirecting...</title>
+    <script>
+      // Single Page App redirect for GitHub Pages
+      (function() {
+        var base = '/campuseats-2417175-example/';
+        var path = window.location.pathname;
+        var relativePath = path.startsWith(base) ? path.substring(base.length) : path.replace(/^\//, '');
+        var target = base + '#/' + relativePath + window.location.search + window.location.hash;
+        window.location.replace(target);
+      })();
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <p>Redirecting to CampusEats...</p>
   </body>
 </html>

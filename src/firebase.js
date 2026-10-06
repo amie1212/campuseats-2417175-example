@@ -1,5 +1,5 @@
-import { initializeApp } from 'firebase/app'
-import { getAuth, GoogleAuthProvider } from 'firebase/auth'
+import { initializeApp, getApps } from 'firebase/app'
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 
 // Firebase configuration using environment variables from .env.local
@@ -12,12 +12,33 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 }
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig)
+// Check if valid credentials are provided
+export const isFirebaseConfigured = Boolean(
+  firebaseConfig.apiKey &&
+  firebaseConfig.projectId &&
+  firebaseConfig.apiKey !== 'your_api_key_here' &&
+  !firebaseConfig.apiKey.includes('placeholder')
+)
 
-// Export Firebase services for authentication and database
-export const auth = getAuth(app)
-export const googleProvider = new GoogleAuthProvider()
-export const db = getFirestore(app)
+let app = null
+let auth = null
+let googleProvider = null
+let db = null
 
+if (isFirebaseConfigured) {
+  try {
+    app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0]
+    auth = getAuth(app)
+    googleProvider = new GoogleAuthProvider()
+    googleProvider.setCustomParameters({ prompt: 'select_account' })
+    db = getFirestore(app)
+    console.info('✓ Firebase successfully initialized for CampusEats')
+  } catch (error) {
+    console.warn('Firebase initialization warning:', error.message)
+  }
+} else {
+  console.info('ℹ Running in CampusEats Smart Demo Mode (Local Persistence enabled). Add Firebase keys in .env.local for cloud sync.')
+}
+
+export { app, auth, googleProvider, db, signInWithPopup, signOut }
 export default app
