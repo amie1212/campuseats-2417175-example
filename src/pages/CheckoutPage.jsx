@@ -25,7 +25,6 @@ function CheckoutPage() {
   const { showToast } = useToast()
   const navigate = useNavigate()
 
-  // Checkout form fields
   const [customerName, setCustomerName] = useState(currentUser.name || 'Abdullah Najmi')
   const [matricNo, setMatricNo] = useState(currentUser.matricNo || '2417175')
   const [phone, setPhone] = useState(currentUser.phone || '+60 11-2345 6789')
@@ -58,7 +57,6 @@ function CheckoutPage() {
 
     setIsSubmitting(true)
 
-    // Build order object
     const orderPayload = {
       vendorId: currentVendorId || 'faruq',
       vendorName: currentVendor?.name || 'Kafe Mahallah Faruq',
@@ -88,9 +86,9 @@ function CheckoutPage() {
       const createdOrder = placeOrder(orderPayload)
       clearCart()
       setIsSubmitting(false)
-      showToast(`Order #${createdOrder.pickupCode} placed successfully!`, 'success')
+      showToast(`Order #${createdOrder.pickupCode} placed successfully`, 'success')
       navigate('/orders')
-    }, 700)
+    }, 600)
   }
 
   return (
@@ -102,7 +100,7 @@ function CheckoutPage() {
       </div>
 
       <div className="checkout-header">
-        <span className="hero-eyebrow">Express Campus Checkout</span>
+        <span className="hero-eyebrow">Express Checkout</span>
         <h1 className="page-title">Confirm & Pay</h1>
         <p className="page-subtitle">Verify pickup timing and student details</p>
       </div>
@@ -112,7 +110,7 @@ function CheckoutPage() {
         <div className="checkout-main-col">
           {/* Student Info Card */}
           <div className="checkout-card">
-            <h3 className="card-heading">1. Student Contact Information</h3>
+            <h3 className="card-heading">1. Contact Information</h3>
             <div className="form-grid-2">
               <div className="form-group">
                 <label className="form-label">Full Name</label>
@@ -138,7 +136,7 @@ function CheckoutPage() {
               </div>
 
               <div className="form-group">
-                <label className="form-label">WhatsApp / Phone</label>
+                <label className="form-label">Phone</label>
                 <input
                   type="tel"
                   className="apple-input"
@@ -164,36 +162,28 @@ function CheckoutPage() {
 
           {/* Payment Method Card */}
           <div className="checkout-card">
-            <h3 className="card-heading">2. Select Payment Method</h3>
+            <h3 className="card-heading">2. Payment Method</h3>
             <div className="payment-options-list">
               {[
                 {
                   id: 'DuitNow QR',
                   title: 'DuitNow QR Pay',
-                  desc: 'Scan QR at pickup counter (Touch n Go / Maybank / CIMB / Boost)',
-                  icon: '📱',
-                  badge: 'Fastest',
+                  desc: 'Scan QR at pickup counter (Touch n Go / Maybank / CIMB)',
                 },
                 {
                   id: 'Campus Cash',
                   title: 'Cash upon Pickup',
-                  desc: 'Pay cash directly at the cafeteria counter during pickup',
-                  icon: '💵',
-                  badge: 'Standard',
+                  desc: 'Pay cash directly at the cafeteria counter',
                 },
                 {
                   id: 'Apple Pay',
-                  title: 'Apple Pay / Digital Wallet',
-                  desc: 'Touch ID or Face ID instant verification',
-                  icon: '🍎',
-                  badge: 'Seamless',
+                  title: 'Apple Pay',
+                  desc: 'One-touch wallet verification',
                 },
                 {
                   id: 'FPX Online Banking',
                   title: 'FPX Online Banking',
-                  desc: 'Direct payment via bank portal',
-                  icon: '🏦',
-                  badge: '',
+                  desc: 'Online bank transfer',
                 },
               ].map((opt) => (
                 <label
@@ -207,12 +197,8 @@ function CheckoutPage() {
                     checked={paymentMethod === opt.id}
                     onChange={() => setPaymentMethod(opt.id)}
                   />
-                  <span className="payment-icon">{opt.icon}</span>
                   <div className="payment-text-wrap">
-                    <div className="payment-title-row">
-                      <span className="payment-title">{opt.title}</span>
-                      {opt.badge && <span className="payment-badge">{opt.badge}</span>}
-                    </div>
+                    <span className="payment-title">{opt.title}</span>
                     <span className="payment-desc">{opt.desc}</span>
                   </div>
                 </label>
@@ -226,17 +212,15 @@ function CheckoutPage() {
           <div className="summary-card">
             <h3 className="summary-title">Order Overview</h3>
 
-            {/* Vendor and schedule box */}
             <div className="checkout-vendor-snippet">
-              <span className="snippet-stall-name">📍 {currentVendor?.name}</span>
+              <span className="snippet-stall-name">{currentVendor?.name}</span>
               <div className="snippet-meta">
-                <span>⏱️ {pickupTime}</span>
+                <span>{pickupTime}</span>
                 <span>&bull;</span>
                 <span>{orderType}</span>
               </div>
             </div>
 
-            {/* Items list */}
             <div className="checkout-item-rows">
               {cartItems.map((item) => (
                 <div key={item.id} className="checkout-item-row">
@@ -260,7 +244,6 @@ function CheckoutPage() {
 
             <div className="summary-divider"></div>
 
-            {/* Price lines */}
             <div className="summary-rows">
               <div className="summary-row">
                 <span>Subtotal</span>
@@ -290,10 +273,6 @@ function CheckoutPage() {
             >
               {isSubmitting ? 'Placing Order...' : `Place Order &bull; RM ${total.toFixed(2)}`}
             </button>
-
-            <p className="checkout-guarantee">
-              ✓ Instant pickup ticket generated upon submission.
-            </p>
           </div>
         </div>
       </form>

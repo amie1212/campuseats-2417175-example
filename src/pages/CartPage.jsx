@@ -49,11 +49,10 @@ function CartPage() {
     return (
       <div className="cart-empty-page">
         <div className="empty-cart-card">
-          <span className="empty-cart-icon">🛒</span>
           <h2>Your tray is empty</h2>
-          <p>Explore mahallah food stalls and add your favourite dishes to pre-order.</p>
+          <p>Explore mahallah food stalls and add dishes to pre-order.</p>
           <Link to="/" className="btn btn-primary-lg">
-            Explore Mahallah Stalls &rarr;
+            Explore Stalls &rarr;
           </Link>
         </div>
       </div>
@@ -75,14 +74,13 @@ function CartPage() {
       <div className="cart-layout-grid">
         {/* Left Column: Cart Items List */}
         <div className="cart-items-section">
-          {/* Vendor identification banner */}
           {currentVendor && (
             <div className="cart-vendor-banner">
-              <span className="vendor-avatar-mini">{currentVendor.image || '🍽️'}</span>
+              <span className="vendor-avatar-mini">{currentVendor.name.charAt(0)}</span>
               <div>
                 <p className="cart-vendor-label">Ordering from</p>
                 <h4 className="cart-vendor-name">{currentVendor.name}</h4>
-                <span className="cart-vendor-loc">📍 {currentVendor.location}</span>
+                <span className="cart-vendor-loc">{currentVendor.location}</span>
               </div>
             </div>
           )}
@@ -90,7 +88,7 @@ function CartPage() {
           <div className="cart-items-list">
             {cartItems.map((item) => (
               <div key={item.id} className="cart-item-row">
-                <div className="cart-item-thumb">{item.imageEmoji || '🍽️'}</div>
+                <div className="cart-item-thumb">{item.name.charAt(0)}</div>
                 <div className="cart-item-details">
                   <div className="cart-item-title-row">
                     <h4 className="cart-item-name">{item.name}</h4>
@@ -102,7 +100,7 @@ function CartPage() {
 
                   {item.notes && (
                     <div className="cart-item-note-pill">
-                      <span>✏️ {item.notes}</span>
+                      <span>Note: {item.notes}</span>
                     </div>
                   )}
 
@@ -134,7 +132,6 @@ function CartPage() {
                         removeFromCart(item.id)
                         showToast(`Removed ${item.name}`, 'info')
                       }}
-                      title="Remove item"
                     >
                       Delete
                     </button>
@@ -153,14 +150,14 @@ function CartPage() {
                 className={`segment-btn ${orderType === 'Takeaway' ? 'active' : ''}`}
                 onClick={() => setOrderType('Takeaway')}
               >
-                🥡 Takeaway (+RM 0.50)
+                Takeaway (+RM 0.50)
               </button>
               <button
                 type="button"
                 className={`segment-btn ${orderType === 'Dine-In' ? 'active' : ''}`}
                 onClick={() => setOrderType('Dine-In')}
               >
-                🍽️ Dine-In (No fee)
+                Dine-In
               </button>
             </div>
           </div>
@@ -170,11 +167,11 @@ function CartPage() {
             <h4 className="config-box-title">Estimated Pickup Time</h4>
             <div className="pickup-times-grid">
               {[
-                '10-15 mins (Fastest)',
-                '12:30 PM (Zohor Prayer)',
+                '10-15 mins (Standard)',
+                '12:30 PM (Zohor)',
                 '1:15 PM (Lunch Rush)',
                 '5:30 PM (After Class)',
-                '8:00 PM (Dinner / Supper)',
+                '8:00 PM (Supper)',
               ].map((time) => (
                 <button
                   key={time}
@@ -182,7 +179,7 @@ function CartPage() {
                   className={`pickup-time-pill ${pickupTime === time ? 'active' : ''}`}
                   onClick={() => setPickupTime(time)}
                 >
-                  🕒 {time}
+                  {time}
                 </button>
               ))}
             </div>
@@ -190,11 +187,11 @@ function CartPage() {
 
           {/* Overall Order Notes */}
           <div className="cart-config-box">
-            <h4 className="config-box-title">Overall Kitchen Instruction</h4>
+            <h4 className="config-box-title">Kitchen Instructions</h4>
             <input
               type="text"
               className="apple-input"
-              placeholder="e.g. Please pack cutlery and extra napkins..."
+              placeholder="e.g. Please separate packaging, extra cutlery..."
               value={specialInstructions}
               onChange={(e) => setSpecialInstructions(e.target.value)}
             />
@@ -204,7 +201,7 @@ function CartPage() {
         {/* Right Column: Bill Summary & Checkout */}
         <div className="cart-summary-section">
           <div className="summary-card">
-            <h3 className="summary-title">Order Breakdown</h3>
+            <h3 className="summary-title">Summary</h3>
 
             {/* Voucher Code Form */}
             <form onSubmit={handleApplyVoucher} className="voucher-form">
@@ -212,7 +209,7 @@ function CartPage() {
                 <input
                   type="text"
                   className="apple-input voucher-input"
-                  placeholder="Promo Code (e.g. IIUMEATS)"
+                  placeholder="Code (e.g. IIUMEATS)"
                   value={inputCode}
                   onChange={(e) => setInputCode(e.target.value)}
                 />
@@ -220,12 +217,12 @@ function CartPage() {
                   Apply
                 </button>
               </div>
-              <p className="voucher-hint">💡 Tip: Use <strong>IIUMEATS</strong> for RM 2.00 off!</p>
+              <p className="voucher-hint">Use code <strong>IIUMEATS</strong> for RM 2.00 off.</p>
             </form>
 
             {voucherCode && (
               <div className="applied-voucher-badge">
-                <span>🏷️ Code <strong>{voucherCode}</strong> applied (-RM {voucherDiscount.toFixed(2)})</span>
+                <span>Code <strong>{voucherCode}</strong> applied (-RM {voucherDiscount.toFixed(2)})</span>
                 <button type="button" onClick={removeVoucher} className="remove-voucher-btn">
                   &times;
                 </button>
@@ -260,10 +257,6 @@ function CartPage() {
             >
               Continue to Checkout &rarr;
             </button>
-
-            <p className="summary-footnote">
-              🔒 Fast & safe campus pickup with digital verification code.
-            </p>
           </div>
         </div>
       </div>

@@ -9,7 +9,6 @@ function Header() {
   const { orders } = useData()
   const location = useLocation()
 
-  // Count active ongoing orders
   const activeOrdersCount = orders.filter(
     (o) => o.status === 'Pending' || o.status === 'Preparing' || o.status === 'Ready for Pickup'
   ).length
@@ -20,7 +19,7 @@ function Header() {
         {/* Brand / Logo */}
         <Link to="/" className="logo-link">
           <div className="logo">
-            <svg className="apple-logo-mark" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <svg className="apple-logo-mark" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/>
             </svg>
             <span className="brand-name">CampusEats</span>
@@ -28,21 +27,21 @@ function Header() {
           </div>
         </Link>
 
-        {/* Desktop & Tablet Navigation */}
+        {/* Desktop Navigation */}
         <nav className="nav desktop-nav">
           <Link to="/" className={location.pathname === '/' ? 'active' : ''}>
             Explore
           </Link>
           <Link to="/orders" className={location.pathname === '/orders' ? 'active' : ''}>
-            My Orders
-            {activeOrdersCount > 0 && <span className="badge pulse-badge">{activeOrdersCount}</span>}
+            Orders
+            {activeOrdersCount > 0 && <span className="badge">{activeOrdersCount}</span>}
           </Link>
           <Link to="/cart" className={`cart-nav-link ${location.pathname === '/cart' ? 'active' : ''}`}>
-            <span>Cart</span>
+            <span>Tray</span>
             <span className="badge">{itemCount}</span>
           </Link>
           <Link to="/admin" className={`admin-nav-link ${location.pathname === '/admin' ? 'active' : ''}`}>
-            <span className="admin-chip">{isAdmin ? '⚙️ Admin Panel' : '👨‍🍳 Staff View'}</span>
+            <span className="admin-chip">{isAdmin ? 'Admin' : 'Kitchen'}</span>
           </Link>
           <Link to="/profile" className={`profile-nav-link ${location.pathname === '/profile' ? 'active' : ''}`}>
             <div className="avatar-chip">
@@ -52,17 +51,21 @@ function Header() {
           </Link>
         </nav>
 
-        {/* Mobile Quick Header Actions */}
+        {/* Mobile Header Actions */}
         <div className="mobile-header-actions">
           <button
             onClick={() => switchRole(isAdmin ? 'student' : 'admin')}
             className={`role-toggle-btn ${isAdmin ? 'admin-active' : ''}`}
-            title="Toggle Student / Admin view"
           >
             {isAdmin ? 'Admin' : 'Student'}
           </button>
-          <Link to="/cart" className="mobile-cart-btn">
-            🛒 <span className="badge">{itemCount}</span>
+          <Link to="/cart" className="mobile-cart-btn" aria-label="View Tray">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            {itemCount > 0 && <span className="badge">{itemCount}</span>}
           </Link>
         </div>
       </div>

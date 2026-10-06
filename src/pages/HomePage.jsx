@@ -15,18 +15,15 @@ function HomePage() {
   // Filtered menu items
   const filteredItems = useMemo(() => {
     return menuItems.filter((item) => {
-      // Category filter
       if (selectedCategory !== 'All' && item.category !== selectedCategory) {
         return false
       }
-      // Quick special filter
-      if (selectedFilter === 'Budget Saver' && item.price > 5.0) {
+      if (selectedFilter === 'Budget' && item.price > 5.0) {
         return false
       }
-      if (selectedFilter === 'Popular Only' && !item.isPopular) {
+      if (selectedFilter === 'Popular' && !item.isPopular) {
         return false
       }
-      // Search query
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase()
         const matchesName = item.name.toLowerCase().includes(query)
@@ -52,24 +49,27 @@ function HomePage() {
 
   return (
     <div className="home-page">
-      {/* Apple-style Hero Showcase */}
+      {/* Hero Showcase */}
       <section className="hero-section">
-        <span className="hero-eyebrow">CampusEats &bull; IIUM Mahallah Dining</span>
+        <span className="hero-eyebrow">CampusEats &bull; IIUM Dining</span>
         <h2 className="hero-headline">
           Skip the queue.<br />Pick up warm & ready.
         </h2>
         <p className="hero-subheadline">
-          Order breakfast, lunch, and late-night supper from your favourite mahallah cafeterias before walking over.
+          Pre-order meals from Mahallah cafeterias before walking over between classes.
         </p>
 
-        {/* Global Search Bar */}
+        {/* Minimal Search Bar */}
         <div className="search-bar-container">
           <div className="search-input-wrapper">
-            <span className="search-icon">🔍</span>
+            <svg className="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
             <input
               type="text"
               className="search-input"
-              placeholder="Search dishes (e.g. Nasi Lemak, Roti Canai, Milo Dinosaur)..."
+              placeholder="Search dishes or stalls..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               aria-label="Search dishes and stalls"
@@ -86,7 +86,7 @@ function HomePage() {
           </div>
         </div>
 
-        {/* Category Pills Bar */}
+        {/* Minimalist Category Pills */}
         <div className="category-scroll-container">
           {categories.map((cat) => (
             <button
@@ -94,12 +94,6 @@ function HomePage() {
               className={`category-pill ${selectedCategory === cat ? 'active' : ''}`}
               onClick={() => setSelectedCategory(cat)}
             >
-              {cat === 'All' && '✨ '}
-              {cat === 'Rice' && '🍚 '}
-              {cat === 'Noodles' && '🍜 '}
-              {cat === 'Western' && '🍔 '}
-              {cat === 'Beverages' && '🧋 '}
-              {cat === 'Snacks' && '🥟 '}
               {cat}
             </button>
           ))}
@@ -110,10 +104,10 @@ function HomePage() {
       <section className="section-group">
         <div className="section-header">
           <div>
-            <h2>Campus Mahallah Stalls</h2>
-            <p className="section-subtitle">Real-time open & prep times across campus</p>
+            <h2>Mahallah Stalls</h2>
+            <p className="section-subtitle">Real-time status across campus</p>
           </div>
-          <span className="section-badge">{filteredVendors.length} Stalls Active</span>
+          <span className="section-badge">{filteredVendors.length} Stalls</span>
         </div>
 
         <div className="vendors-grid">
@@ -123,46 +117,45 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Popular & Filtered Food Items Section */}
+      {/* Food Items Section */}
       <section className="section-group">
         <div className="section-header">
           <div>
             <h2>
-              {searchQuery ? `Search Results for "${searchQuery}"` : `${selectedCategory} Specials`}
+              {searchQuery ? `Results for "${searchQuery}"` : `${selectedCategory} Menu`}
             </h2>
             <p className="section-subtitle">
-              {filteredItems.length} dishes available for quick pickup
+              {filteredItems.length} dishes available
             </p>
           </div>
 
-          {/* Quick Filter Segmented Control */}
+          {/* Quick Filter */}
           <div className="filter-chips-row">
             <button
               className={`filter-chip ${selectedFilter === 'All' ? 'active' : ''}`}
               onClick={() => setSelectedFilter('All')}
             >
-              All Items
+              All
             </button>
             <button
-              className={`filter-chip ${selectedFilter === 'Popular Only' ? 'active' : ''}`}
-              onClick={() => setSelectedFilter('Popular Only')}
+              className={`filter-chip ${selectedFilter === 'Popular' ? 'active' : ''}`}
+              onClick={() => setSelectedFilter('Popular')}
             >
-              🔥 Popular
+              Popular
             </button>
             <button
-              className={`filter-chip ${selectedFilter === 'Budget Saver' ? 'active' : ''}`}
-              onClick={() => setSelectedFilter('Budget Saver')}
+              className={`filter-chip ${selectedFilter === 'Budget' ? 'active' : ''}`}
+              onClick={() => setSelectedFilter('Budget')}
             >
-              🪙 Under RM 5
+              Under RM 5
             </button>
           </div>
         </div>
 
         {filteredItems.length === 0 ? (
           <div className="empty-search-state">
-            <span className="empty-emoji">🥣</span>
             <h3>No dishes found</h3>
-            <p>Try searching for a different dish name or reset filters.</p>
+            <p>Try searching for another dish or reset filters.</p>
             <button
               className="btn btn-secondary"
               onClick={() => {
@@ -183,15 +176,15 @@ function HomePage() {
         )}
       </section>
 
-      {/* Campus Highlight Banner */}
+      {/* Minimalist Voucher Banner */}
       <section className="campus-banner-bento">
         <div className="banner-content">
-          <span className="banner-badge">IIUM Student Deal</span>
-          <h3>Use Voucher "IIUMEATS" for RM 2.00 OFF</h3>
-          <p>Valid for all registered IIUM students across all participating Mahallah cafeterias.</p>
+          <span className="banner-badge">Student Privilege</span>
+          <h3>Use Code "IIUMEATS" for RM 2.00 Off</h3>
+          <p>Valid for all registered IIUM students across participating Mahallah cafeterias.</p>
         </div>
         <Link to="/cart" className="banner-cta-btn">
-          View Cart &rarr;
+          View Tray &rarr;
         </Link>
       </section>
     </div>

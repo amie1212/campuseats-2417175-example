@@ -11,7 +11,6 @@ function VendorCard({ vendor }) {
     rating: 4.8,
     reviewCount: 320,
     cuisine: 'Traditional Malay',
-    image: '🍚',
     deliveryOrPickup: 'Pickup in 10-15 mins',
     announcement: 'Fresh batch of Sambal Sotong ready at 12:00 PM!',
   }
@@ -20,7 +19,7 @@ function VendorCard({ vendor }) {
 
   return (
     <article className="vendor-card">
-      <div className="thumb">{v.image || v.name[0]}</div>
+      <div className="thumb">{v.name.charAt(0)}</div>
       <div className="vendor-body">
         <div className="vendor-top-row">
           <div>
@@ -33,35 +32,30 @@ function VendorCard({ vendor }) {
           </div>
           <span className={`status ${v.isOpen ? 'open' : 'closed'}`}>
             <span className="status-indicator"></span>
-            {v.isOpen ? 'Open now' : 'Closed'}
+            {v.isOpen ? 'Open' : 'Closed'}
           </span>
         </div>
 
         {v.tagline && <p className="vendor-tagline">{v.tagline}</p>}
 
         <div className="vendor-details-row">
-          <p className="location">
-            <span className="detail-icon">📍</span> {v.location}
-          </p>
+          <span className="location">{v.location}</span>
           <span className="dot-separator">•</span>
-          <p className="hours">
-            <span className="detail-icon">🕒</span> {v.openHours}
-          </p>
+          <span className="hours">{v.openHours}</span>
           <span className="dot-separator">•</span>
-          <p className="rating">
-            <span className="star-icon">★</span> {v.rating} <span className="reviews">({v.reviewCount || 100})</span>
-          </p>
+          <span className="rating">
+            ★ {v.rating} <span className="reviews">({v.reviewCount || 100})</span>
+          </span>
         </div>
 
         {v.announcement && (
           <div className="vendor-announcement-chip">
-            <span className="announcement-bell">📢</span>
             <span className="announcement-text">{v.announcement}</span>
           </div>
         )}
 
         <div className="vendor-card-footer">
-          <span className="pickup-speed">⚡ {v.deliveryOrPickup || 'Pickup in 10-15 mins'}</span>
+          <span className="pickup-speed">{v.deliveryOrPickup || 'Pickup in 10-15 mins'}</span>
           <Link to={`/vendor/${v.id}`} className="btn-secondary-pill">
             View Menu &rarr;
           </Link>

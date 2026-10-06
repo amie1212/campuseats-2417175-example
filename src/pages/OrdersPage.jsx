@@ -10,10 +10,9 @@ function OrdersPage() {
   const { currentUser } = useAuth()
   const { showToast } = useToast()
 
-  const [activeTab, setActiveTab] = useState('active') // 'active', 'all', 'completed'
+  const [activeTab, setActiveTab] = useState('active')
   const [selectedReceiptOrder, setSelectedReceiptOrder] = useState(null)
 
-  // Status mapping to steps 0-3
   const getStatusStep = (status) => {
     switch (status) {
       case 'Pending':
@@ -31,7 +30,6 @@ function OrdersPage() {
     }
   }
 
-  // Filter orders for display
   const userOrders = orders.filter(
     (o) =>
       o.matricNo === currentUser.matricNo ||
@@ -52,11 +50,11 @@ function OrdersPage() {
 
   const handleMarkReceived = (orderId, pickupCode) => {
     updateOrderStatus(orderId, 'Completed')
-    showToast(`Order #${pickupCode} marked as picked up! Bon appétit!`, 'success')
+    showToast(`Order #${pickupCode} marked as picked up`, 'success')
   }
 
   const handleCancel = (orderId, pickupCode) => {
-    const confirm = window.confirm(`Are you sure you want to cancel order #${pickupCode}?`)
+    const confirm = window.confirm(`Cancel order #${pickupCode}?`)
     if (confirm) {
       cancelOrder(orderId)
       showToast(`Order #${pickupCode} cancelled`, 'info')
@@ -69,10 +67,9 @@ function OrdersPage() {
         <div>
           <span className="hero-eyebrow">Real-Time Kitchen Feed</span>
           <h1 className="page-title">My Orders</h1>
-          <p className="page-subtitle">Track prep status and show pickup code at the counter</p>
+          <p className="page-subtitle">Track preparation and present ticket at the counter</p>
         </div>
 
-        {/* Tab switch */}
         <div className="orders-tab-switcher">
           <button
             className={`tab-switch-btn ${activeTab === 'active' ? 'active' : ''}`}
@@ -97,15 +94,14 @@ function OrdersPage() {
 
       {displayedOrders.length === 0 ? (
         <div className="empty-orders-card">
-          <span className="empty-icon">🧾</span>
-          <h3>No {activeTab} orders found</h3>
+          <h3>No {activeTab} orders</h3>
           <p>
             {activeTab === 'active'
-              ? 'You do not have any pending orders being cooked right now.'
-              : 'You have not completed any orders yet.'}
+              ? 'You do not have any orders currently in preparation.'
+              : 'You have not completed any past orders.'}
           </p>
           <Link to="/" className="btn">
-            Browse Stalls & Order &rarr;
+            Browse Stalls &rarr;
           </Link>
         </div>
       ) : (
@@ -117,10 +113,9 @@ function OrdersPage() {
 
             return (
               <article key={order.id} className={`order-card-bento ${isReady ? 'ready-pulse' : ''}`}>
-                {/* Header row: Stall Name & Pickup Code */}
                 <div className="order-card-header">
                   <div className="order-stall-info">
-                    <span className="order-stall-name">📍 {order.vendorName}</span>
+                    <span className="order-stall-name">{order.vendorName}</span>
                     <span className="order-timestamp">
                       {new Date(order.createdAt).toLocaleTimeString([], {
                         hour: '2-digit',
@@ -135,12 +130,12 @@ function OrdersPage() {
                   </div>
 
                   <div className="order-code-badge">
-                    <span className="code-label">Pickup Ticket</span>
+                    <span className="code-label">Ticket</span>
                     <span className="code-value">{order.pickupCode}</span>
                   </div>
                 </div>
 
-                {/* Live Progress Bar (if not cancelled) */}
+                {/* Minimalist Progress Bar */}
                 {!isCancelled ? (
                   <div className="order-progress-tracker">
                     <div className="progress-bar-track">
@@ -179,32 +174,22 @@ function OrdersPage() {
                   </div>
                 ) : (
                   <div className="order-cancelled-banner">
-                    <span>⚠️ Order was cancelled.</span>
+                    <span>Order was cancelled</span>
                   </div>
                 )}
 
-                {/* Status Notice Alert */}
-                <div className={`order-status-banner status-${order.status.toLowerCase().replace(/\s+/g, '-')}`}>
-                  <span className="status-banner-icon">
-                    {order.status === 'Ready for Pickup'
-                      ? '🔔'
-                      : order.status === 'Preparing'
-                      ? '🍳'
-                      : order.status === 'Completed'
-                      ? '✅'
-                      : order.status === 'Cancelled'
-                      ? '❌'
-                      : '⏳'}
-                  </span>
+                {/* Minimalist Status Banner */}
+                <div className="order-status-banner">
+                  <span className="status-indicator-dot"></span>
                   <span className="status-banner-text">
-                    <strong>Current Status: {order.status}</strong> &mdash;{' '}
+                    <strong>Status: {order.status}</strong> &mdash;{' '}
                     {order.status === 'Ready for Pickup'
-                      ? `Your food is waiting at ${order.vendorName} counter! Present ticket #${order.pickupCode}.`
+                      ? `Ready at ${order.vendorName} counter. Show ticket #${order.pickupCode}.`
                       : order.status === 'Preparing'
-                      ? 'Kitchen staff is actively preparing your dishes.'
+                      ? 'Kitchen staff is actively preparing your order.'
                       : order.status === 'Pending'
-                      ? 'Order sent to cafeteria queue.'
-                      : 'Order finalized.'}
+                      ? 'Order received in cafeteria queue.'
+                      : 'Order completed.'}
                   </span>
                 </div>
 
@@ -226,7 +211,7 @@ function OrdersPage() {
                 {/* Footer with meta and actions */}
                 <div className="order-card-footer">
                   <div className="order-meta-info">
-                    <span className="meta-time">Scheduled: {order.pickupTime}</span>
+                    <span className="meta-time">Pickup: {order.pickupTime}</span>
                     <span className="meta-type">({order.orderType})</span>
                     <span className="meta-total">Total: RM {order.total.toFixed(2)}</span>
                   </div>
@@ -237,7 +222,7 @@ function OrdersPage() {
                       className="btn-secondary-pill"
                       onClick={() => setSelectedReceiptOrder(order)}
                     >
-                      🧾 Digital Receipt
+                      Receipt
                     </button>
 
                     {order.status === 'Ready for Pickup' && (
@@ -246,7 +231,7 @@ function OrdersPage() {
                         className="btn btn-success-pill"
                         onClick={() => handleMarkReceived(order.id, order.pickupCode)}
                       >
-                        ✓ I've Picked Up
+                        Picked Up
                       </button>
                     )}
 
@@ -272,7 +257,7 @@ function OrdersPage() {
         <Modal
           isOpen={Boolean(selectedReceiptOrder)}
           onClose={() => setSelectedReceiptOrder(null)}
-          title={`Digital Receipt &bull; ${selectedReceiptOrder.pickupCode}`}
+          title={`Receipt &bull; ${selectedReceiptOrder.pickupCode}`}
         >
           <div className="receipt-modal-body">
             <div className="receipt-store-header">
@@ -284,10 +269,10 @@ function OrdersPage() {
             </div>
 
             <div className="receipt-ticket-box">
-              <span className="ticket-label">PICKUP TICKET NUMBER</span>
+              <span className="ticket-label">PICKUP TICKET</span>
               <span className="ticket-number">{selectedReceiptOrder.pickupCode}</span>
               <span className="ticket-name">
-                Student: {selectedReceiptOrder.customerName} ({selectedReceiptOrder.matricNo})
+                {selectedReceiptOrder.customerName} &bull; {selectedReceiptOrder.matricNo}
               </span>
             </div>
 
@@ -317,16 +302,16 @@ function OrdersPage() {
               </div>
               {selectedReceiptOrder.discount > 0 && (
                 <div className="receipt-row discount">
-                  <span>Student Discount:</span>
+                  <span>Discount:</span>
                   <span>-RM {selectedReceiptOrder.discount.toFixed(2)}</span>
                 </div>
               )}
               <div className="receipt-row total">
-                <span>Total Paid:</span>
+                <span>Total:</span>
                 <span>RM {selectedReceiptOrder.total.toFixed(2)}</span>
               </div>
               <div className="receipt-row">
-                <span>Payment Method:</span>
+                <span>Payment:</span>
                 <span>{selectedReceiptOrder.paymentMethod}</span>
               </div>
             </div>
@@ -342,7 +327,7 @@ function OrdersPage() {
                 className="btn btn-primary-full"
                 onClick={() => setSelectedReceiptOrder(null)}
               >
-                Close Receipt
+                Close
               </button>
             </div>
           </div>

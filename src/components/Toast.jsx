@@ -19,13 +19,8 @@ export function ToastProvider({ children }) {
       {children}
       <div className="toast-container" aria-live="polite">
         {toasts.map((toast) => (
-          <div key={toast.id} className={`apple-toast toast-${toast.type}`}>
-            <span className="toast-icon">
-              {toast.type === 'success' && '✓'}
-              {toast.type === 'error' && '✕'}
-              {toast.type === 'warning' && '⚠️'}
-              {toast.type === 'info' && 'ℹ'}
-            </span>
+          <div key={toast.id} className="apple-toast">
+            <span className="toast-indicator"></span>
             <span className="toast-message">{toast.message}</span>
           </div>
         ))}

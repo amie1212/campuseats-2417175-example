@@ -32,30 +32,32 @@ function VendorDetailPage() {
       {/* Vendor Hero Banner */}
       <section className="vendor-hero-card">
         <div className="vendor-hero-header">
-          <div className="vendor-hero-avatar">{vendor.image || '🍽️'}</div>
+          <div className="vendor-hero-avatar">{vendor.name.charAt(0)}</div>
           <div className="vendor-hero-info">
             <div className="vendor-hero-badges">
               <span className="eyebrow-tag">{vendor.cuisine}</span>
               <span className={`status ${vendor.isOpen ? 'open' : 'closed'}`}>
                 <span className="status-indicator"></span>
-                {vendor.isOpen ? 'Open Now' : 'Closed'}
+                {vendor.isOpen ? 'Open' : 'Closed'}
               </span>
             </div>
             <h1 className="vendor-hero-title">{vendor.name}</h1>
             <p className="vendor-hero-tagline">{vendor.tagline}</p>
 
             <div className="vendor-hero-meta">
-              <span>📍 {vendor.location}</span>
-              <span>🕒 {vendor.openHours}</span>
-              <span>★ {vendor.rating} ({vendor.reviewCount || 150} reviews)</span>
-              <span>⚡ {vendor.deliveryOrPickup}</span>
+              <span>{vendor.location}</span>
+              <span>&bull;</span>
+              <span>{vendor.openHours}</span>
+              <span>&bull;</span>
+              <span>★ {vendor.rating} ({vendor.reviewCount || 150})</span>
+              <span>&bull;</span>
+              <span>{vendor.deliveryOrPickup}</span>
             </div>
           </div>
         </div>
 
         {vendor.announcement && (
           <div className="vendor-hero-announcement">
-            <span className="announcement-icon">📢</span>
             <span className="announcement-msg">{vendor.announcement}</span>
           </div>
         )}
@@ -77,7 +79,7 @@ function VendorDetailPage() {
       {/* Menu Grid */}
       <section className="section-group">
         <div className="section-header">
-          <h2>Stall Menu</h2>
+          <h2>Menu</h2>
           <span className="section-badge">{filteredItems.length} items</span>
         </div>
 
@@ -98,11 +100,11 @@ function VendorDetailPage() {
       {itemCount > 0 && currentVendorId === vendor.id && (
         <div className="sticky-mobile-cart-bar">
           <div className="sticky-cart-summary">
-            <span className="sticky-count">{itemCount} items in cart</span>
+            <span className="sticky-count">{itemCount} items in tray</span>
             <span className="sticky-total">RM {total.toFixed(2)}</span>
           </div>
           <Link to="/cart" className="btn sticky-cart-btn">
-            View Cart &rarr;
+            View Tray &rarr;
           </Link>
         </div>
       )}
