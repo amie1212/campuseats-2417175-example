@@ -19,7 +19,7 @@ function Header() {
         {/* Brand / Logo */}
         <Link to="/" className="logo-link">
           <div className="logo">
-            <img src="favicon.png" alt="CampusEats Icon" width="20" height="20" className="brand-logo-mark" />
+            <img src="favicon.svg" alt="CampusEats Icon" width="20" height="20" className="brand-logo-mark" />
             <span className="brand-name">CampusEats</span>
             <span className="campus-badge">IIUM</span>
           </div>
